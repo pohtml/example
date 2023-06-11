@@ -1,0 +1,70 @@
+body > * {
+  display: table;
+  margin: 0 auto;
+  width: 80%;
+  text-align: center;
+  white-space: nowrap;
+}
+
+form, table {
+	text-align: initial;
+}
+
+form {
+	width: 77.1%;
+}
+
+body {
+  margin-top: 1.5em;
+}
+
+label, button {
+	margin-left: 2px;
+}
+
+button {
+	margin-top: .8em;
+}
+
+input[type=text] {
+	margin-top: .3em;
+	display: block;
+	padding: 5px;
+	width: 94%
+}
+
+input[type=text].error {
+	border: 2px solid red;
+}
+
+input[type=text].error:focus {
+	outline: none
+}
+
+
+table {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+legend {
+	position: relative;
+	bottom: 1px;
+	padding-left: .3em;
+	padding-right: .3em;
+}
+
+form > p {
+	margin-top: 0;
+	margin-bottom: .5em;
+}
