@@ -4,5 +4,5 @@
 		<feature>servlet-4.0</feature>
 	</featureManager>
 	<applicationManager startTimeout="10m" />
-	<httpEndpoint id="defaultHttpEndpoint" host="localhost" />
+	<httpEndpoint id="defaultHttpEndpoint" />
 </server>

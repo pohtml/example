@@ -4,16 +4,4 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
    http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
-	<servlet>
-		<servlet-name>intranet</servlet-name>
-		<servlet-class>com.softalks.pohtml.Redirect</servlet-class>
-		<init-param>
-			<param-name>com.softalks.pohtml.base</param-name>
-			<param-value>http://localhost/static_files/common/intranet/dep/explotacion/arqudesa</param-value>
-		</init-param>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>intranet</servlet-name>
-		<url-pattern>*.ra</url-pattern>
-	</servlet-mapping>
 </web-app>
