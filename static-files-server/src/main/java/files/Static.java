@@ -27,10 +27,9 @@ public class Static extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletContext context = getServletContext();
 		String path = context.getContextPath();
-		String base = context.getInitParameter("com.softalks.servers.http.fs-base");
-		if (base == null) {
-			base = System.getProperty("com.softalks.servers.http.fs-base");
-		}
+		String base = System.getProperty("user.dir");
+		int index = base.indexOf("/static-files-server/");
+		base = base.substring(0, index + 13);
 		base += req.getRequestURI().substring(path.length());
 		File file = new File(base);
 		String ims = req.getHeader("If-Modified-Since");
