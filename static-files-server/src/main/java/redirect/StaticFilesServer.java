@@ -1,4 +1,4 @@
-package files;
+package redirect;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,19 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/common/*")
-public class Static extends HttpServlet {
+public class StaticFilesServer extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ServletContext context = getServletContext();
-		String path = context.getContextPath();
-		String base = System.getProperty("user.dir");
-		int index = base.indexOf("/static-files-server/");
-		base = base.substring(0, index + 13);
-		base += req.getRequestURI().substring(path.length());
-		File file = new File(base);
+		String path = System.getProperty("wlp.user.dir");
+		int index = path.indexOf("/static-files-server/");
+		path = path.substring(0, index + 13);
+		path += req.getRequestURI().substring(context.getContextPath().length());
+		File file = new File(path);
 		String ims = req.getHeader("If-Modified-Since");
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
