@@ -14,4 +14,5 @@ public class StaticContext extends AbstractStaticContext {
 	public static void main(String[] args) {
 		System.out.println(System.currentTimeMillis() / 1000); // Set this output as the value of VERSION_TIME_SECONDS just before committing 
 	}
+	
 }
