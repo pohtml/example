@@ -30,7 +30,7 @@ input[type=text] {
 	margin-top: .3em;
 	display: block;
 	padding: 5px;
-	width: 94%
+	width: 100%;
 }
 
 input[type=text].error {
@@ -67,4 +67,8 @@ legend {
 form > p {
 	margin-top: 0;
 	margin-bottom: .5em;
+}
+
+fieldset {
+	padding-right: 2em;
 }
