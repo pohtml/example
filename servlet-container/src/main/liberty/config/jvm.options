@@ -1,1 +1,2 @@
--Dcom.github.pohtml.base=http://127.0.0.1:9081/static_files/common
+-Dcom.github.pohtml.origin=http://127.0.0.1:9081
+-Dcom.github.pohtml.context=/static_files

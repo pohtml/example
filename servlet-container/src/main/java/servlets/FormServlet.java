@@ -2,14 +2,14 @@ package servlets;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.github.pohtml.HtmlGet;
+import com.github.pohtml.GetServlet;
 
-@WebServlet({"/dbac/ui", "/intranet/dep/explotacion/arqudesa/dbac/ui.html"})
-public class HtmlGetForm extends HtmlGet<Form> {
+@WebServlet({"/dbac/ui", "/common/intranet/dep/explotacion/arqudesa/dbac/ui.html"})
+public class FormServlet extends GetServlet<Form> {
 
 	private static final long serialVersionUID = 1L;
 
-	public HtmlGetForm() {
+	public FormServlet() {
 		super(serialVersionUID);
 	}
 	

@@ -2,10 +2,10 @@ package servlets;
 
 import javax.servlet.annotation.WebServlet;
 
-import com.github.pohtml.AbstractStaticContext;
+import com.github.pohtml.Static;
 
 @WebServlet(StaticContext.VERSION_TIME_SECONDS)
-public class StaticContext extends AbstractStaticContext {
+public class StaticContext extends Static {
 
 	public static final String VERSION_TIME_SECONDS = "1686511385";
 	
