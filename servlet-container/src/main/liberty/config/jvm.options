@@ -1,1 +1,1 @@
--Xshareclasses:none
+-Dcom.github.pohtml.base=http://127.0.0.1:9081/static_files/common
