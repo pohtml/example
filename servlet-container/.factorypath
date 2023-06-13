@@ -1,0 +1,4 @@
+<factorypath>
+    <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/http-jar/annotations/target/com.github.pohtml.http-jar.annotations-0.0.1-SNAPSHOT.jar" enabled="false" runInBatchMode="false"/>
+</factorypath>

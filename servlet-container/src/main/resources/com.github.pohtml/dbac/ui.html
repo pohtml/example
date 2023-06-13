@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<title>Dynamic HTML test page</title>
+<link rel=stylesheet href=style.css>
+<script src="ui.js"></script>
+<script src="persons.js"></script>
+<script src="timestamp.js"></script>
+<script src=/static_files/common/dep/explotacion/arqudesa/html.js></script>
+<script src=/static_files/common/dep/explotacion/arqudesa/http.js></script>
+<script src=/static_files/common/dep/explotacion/arqudesa/forms.js></script>
+<script src=/static_files/common/dep/explotacion/arqudesa/el.js></script>
+</head>
+<body onload='if (forms.feedback) alert(forms.feedback)'>
+	<a href="${swap}">${timestamp}</a>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Surname</th>
+			<th>AKA</th>
+		</tr>
+		<script>
+	        for (let person of persons) {
+	            tr = function() {
+	                this.style["background-color"] = "yellow"
+	                td = person.name
+	                td = person.surname
+	                td = person.nickname
+	            }
+	        }
+		</script>
+	</table>
+	<form action="${actions}/wlpl/ADHT-SEGU/dbac/control" method=POST>
+		<fieldset>
+			<legend>Test form</legend>
+			<label> Say something:
+				<input type=text name=message>
+			</label>
+			<button type=submit>Submit</button>
+		</fieldset>
+	</form>
+</body>
+</html>
