@@ -4,12 +4,12 @@ import javax.servlet.annotation.WebServlet;
 
 import com.github.pohtml.GetServlet;
 
-@WebServlet({"/dbac/ui", "/common/intranet/dep/explotacion/arqudesa/dbac/ui.html"})
-public class GetServletForm extends GetServlet<Form> {
+@WebServlet({"/dbac/ui2", "/common/intranet/dep/explotacion/arqudesa/dbac/ui2.html"})
+public class GetServletForm2 extends GetServlet<Form> {
 
 	private static final long serialVersionUID = 1L;
 
-	public GetServletForm() {
+	public GetServletForm2() {
 		super(serialVersionUID);
 	}
 	
