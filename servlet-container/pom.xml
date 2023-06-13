@@ -22,7 +22,9 @@
 						<phase>generate-sources</phase>
 						<configuration>
 							<optionMap>
-								<com.github.pohtml.context>Hello, World!</com.github.pohtml.context>
+								<com.github.pohtml.context.static>/wlpl/ADHT-SEGU</com.github.pohtml.context.static>
+								<com.github.pohtml.context.dynamic>/wlpl/ADHT-SEGU</com.github.pohtml.context.dynamic>
+								<com.github.pohtml.http.build>http://locaLhost:9080</com.github.pohtml.http.build>
 							</optionMap>
 						</configuration>
 					</execution>
