@@ -4,21 +4,28 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServlet;
 
 @WebListener
-public class Activator implements ServletContextListener {
+public class Initializer implements ServletContextListener {
 
 	private final boolean redirecting;
 	
-	public Activator() {
+	private ServletContext context; 
+	
+	public Initializer() {
 		this.redirecting = System.getProperty("com.github.pohtml.fs.base") != null;
+	}
+	
+	private void addServlet(Class<? extends HttpServlet> code, String mapping) {
+		context.addServlet(code.getSimpleName(), code).addMapping(mapping);
 	}
 	
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
-		ServletContext context = event.getServletContext();
+		context = event.getServletContext();
 		if (redirecting) {
-			context.addServlet("redirect", Redirect.class).addMapping("/*");	
+			addServlet(Redirect.class, "/*");	
 		}
 	}
 	
