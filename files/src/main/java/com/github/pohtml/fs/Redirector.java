@@ -1,4 +1,4 @@
-package com.github.pohtml;
+package com.github.pohtml.fs;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,32 +15,27 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/*")
-public class StaticFilesServer extends HttpServlet {
+public class Redirector extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String base = System.getProperty("com.github.pohtml.fs.base");
-	private final String alternative = System.getProperty("com.github.pohtml.fs.alternative");
-	
-	private File directory;
+	private String base = System.getProperty("com.github.pohtml.fs.base");
+	private final String alternative = base != null? System.getProperty("com.github.pohtml.fs.alternative") : null;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		if (base != null) {
-			directory = new File(System.getProperty("wlp.install.dir")).getParentFile();
-			if (directory.getName().equals("liberty")) {
-				directory = directory.getParentFile();
-			}
+		if (base != null && base.startsWith("..")) {
+			base = new File(new File(System.getProperty("wlp.install.dir")), base).getAbsolutePath();
 		}
 	}
 	
@@ -100,53 +95,49 @@ public class StaticFilesServer extends HttpServlet {
 	}
 	
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String path = request.getRequestURI();
-		File file;
-		if (base == null && directory != null) {
-			File candidate = new File(directory, path);
-			while (!candidate.exists()) {
-				directory = directory.getParentFile();
-				if (directory == null) {
-					throw new IllegalStateException();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			String path = request.getRequestURI();
+			int preffix = getServletContext().getContextPath().length();
+			path = path.substring(preffix);
+			File file = new File(base, path);
+			if (file.isFile()) {
+				String ims = request.getHeader("If-Modified-Since");
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+				sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+				Boolean modified = null;
+				if (ims == null) {
+					response.addHeader("Last-Modified", sdf.format(new Date(file.lastModified())));
 				} else {
-					candidate = new File(directory, path);
+					modified = sdf.parse(ims).getTime() < file.lastModified() / 1000;
 				}
-			}
-			file = candidate;
-		} else if (base == null && directory == null) {
-			throw new IllegalStateException();
-		} else {
-			file = new File(new File(base), path);
-			if (!file.exists() && alternative != null) {
+				if (modified == null || modified) {
+					transfer(file, response);
+				} else {
+					response.setStatus(304);
+				}
+			} else if (alternative != null && file.isDirectory()) {
 				redirect(request, response);
-			}
-		}
-		String ims = request.getHeader("If-Modified-Since");
-		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-		Boolean modified = null;
-		if (ims == null) {
-			response.addHeader("Last-Modified", sdf.format(new Date(file.lastModified())));
-		} else {
-			try {
-				modified = sdf.parse(ims).getTime() < file.lastModified() / 1000;
-			} catch (ParseException e) {
-				throw new IllegalArgumentException(ims);
-			}
-		}
-		if (modified == null || modified) {
-			try (InputStream is = new FileInputStream(file); OutputStream os = response.getOutputStream()) {
-				byte[] buffer = new byte[1024];
-				int read = is.read(buffer);
-				while (read != -1) {
-					os.write(buffer, 0, read);
-					read = is.read(buffer);
-				}
+			} else if (alternative == null) {
+				response.setStatus(404);
+			} else {
+				redirect(request, response);
 			}	
-		} else {
-			response.setStatus(304);
+		} catch (IOException | ParseException e) {
+			Logger.getGlobal().log(Level.SEVERE, "ungotten", e);
+			response.setStatus(500);			
 		}
 	}
-
+	
+	private void transfer(File file, HttpServletResponse response) throws IOException {
+		try (InputStream is = new FileInputStream(file); OutputStream os = response.getOutputStream()) {
+			byte[] buffer = new byte[1024];
+			int read = is.read(buffer);
+			while (read != -1) {
+				os.write(buffer, 0, read);
+				read = is.read(buffer);
+			}
+		}		
+	}
+	
 }
