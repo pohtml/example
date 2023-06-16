@@ -1,4 +1,4 @@
-package com.github.pohtml.fs;
+package com.github.pohtml.example.servers.files;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
